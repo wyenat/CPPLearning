@@ -1,8 +1,9 @@
 #include <iostream>
-#include "gui/test.h"
+#include "gui/window.h"
 
 int main()
 {
-    hello();
+    Window window;
+    window.run();
     return 0;
 }
