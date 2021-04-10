@@ -1,8 +1,14 @@
 #include <iostream>
-#include "gui/test.h"
+#include "gui/window.h"
+#include "control/keyBinding.h"
 
 int main()
 {
-    hello();
+    Window window;
+    KeyBinding keybind(&window);
+    std::cout << "Done initializing !\n";
+    window.run();
+    keybind.keyboardUntilQuit();
+
     return 0;
 }

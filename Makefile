@@ -6,8 +6,8 @@ TARGET := bin/main
 SRCEXT := c++
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g -Wall
-LIB :=
+CFLAGS := -g -Wall -std=c++11 -pthread
+LIB := -lSDL2 -lSDL2_image -lSDL2_ttf
 INC := -I include
 
 $(TARGET): $(OBJECTS)
