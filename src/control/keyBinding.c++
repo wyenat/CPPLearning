@@ -1,6 +1,6 @@
 #include "control/keyBinding.h"
 
-KeyBinding::KeyBinding(SDL_Window *w)
+KeyBinding::KeyBinding(Window *w)
 {
     window = w;
 }
@@ -9,7 +9,7 @@ KeyBinding::KeyBinding()
 {
 }
 
-void KeyBinding::setWindow(SDL_Window *w)
+void KeyBinding::setWindow(Window *w)
 {
     window = w;
 }
@@ -65,7 +65,7 @@ void KeyBinding::callbackLeft()
 void KeyBinding::callbackA()
 {
     std::cout << "A pressed!" << std::endl;
-    // window.draw();
+    window->draw();
 }
 
 void KeyBinding::keyPressed(SDL_Keycode key)
@@ -73,3 +73,28 @@ void KeyBinding::keyPressed(SDL_Keycode key)
     const char *keycode = SDL_GetKeyName(key);
     hardmap(keycode);
 }
+
+void KeyBinding::keyboardUntilQuit()
+{
+    SDL_Event kevent;
+    bool quit = false;
+    while (!quit)
+    {
+        while (SDL_PollEvent(&kevent))
+        {
+            switch (kevent.type)
+            {
+            case SDL_KEYDOWN:
+                keyPressed(kevent.key.keysym.sym);
+                break;
+            case SDL_QUIT:
+                std::cout << "\nBye!\n";
+                quit = true;
+                window->dispose();
+                break;
+            default:
+                break;
+            }
+        }
+    }
+};

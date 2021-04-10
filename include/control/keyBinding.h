@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "gui/window.h"
 
 /**
  * This class serves binding of the keys to functions.
@@ -30,11 +31,17 @@ private:
     void callbackLeft();
 
     // Window
-    SDL_Window *window;
+    Window *window;
+
+    void keyPressed(SDL_Keycode key);
 
 public:
     KeyBinding();
-    KeyBinding(SDL_Window *window);
-    void setWindow(SDL_Window *window);
-    void keyPressed(SDL_Keycode key);
+    KeyBinding(Window *window);
+    void setWindow(Window *window);
+
+    /**
+     *  Listen to new events until a CTRL + C is detected
+     */
+    void keyboardUntilQuit();
 };

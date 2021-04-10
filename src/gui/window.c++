@@ -1,5 +1,4 @@
 #include "gui/window.h"
-#include "control/keyBinding.h"
 
 Window::Window()
 {
@@ -20,41 +19,20 @@ void Window::init()
         WIDTH, HEIGHT,
         SDL_WINDOW_HIDDEN);
     pRenderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_SOFTWARE);
-    kb.setWindow(window);
     SDL_SetWindowTitle(window, "Window");
 }
 
-void Window::keyboardUntilQuit()
-{
-    SDL_Event kevent;
-    bool quit = false;
-    while (!quit)
-    {
-        while (SDL_PollEvent(&kevent))
-        {
-            switch (kevent.type)
-            {
-            case SDL_KEYDOWN:
-                kb.keyPressed(kevent.key.keysym.sym);
-                break;
-            case SDL_QUIT:
-                std::cout << "\nBye!\n";
-                quit = true;
-                SDL_DestroyWindow(window);
-                SDL_Quit();
-                break;
-            default:
-                break;
-            }
-        }
-    }
-};
-
 void Window::run()
 {
+    init();
     SDL_ShowWindow(window);
-    keyboardUntilQuit();
 };
+
+void Window::dispose()
+{
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+}
 
 void Window::draw()
 {
