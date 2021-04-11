@@ -42,7 +42,18 @@ void KeyBinding::hardmap(const char *keycode)
         callbackLeft();
         return;
     }
+    if (!strcmp(keycode, "Escape"))
+    {
+        callbackEscape();
+        return;
+    }
     std::cout << "Key " << keycode << " pressed but not binded\n";
+}
+
+void KeyBinding::callbackEscape()
+{
+    std::cout << "Escape pressed : Bye bye !\n";
+    window->dispose();
 }
 
 void KeyBinding::callbackUp()
@@ -64,7 +75,7 @@ void KeyBinding::callbackLeft()
 
 void KeyBinding::callbackA()
 {
-    std::cout << "A pressed!" << std::endl;
+    std::cout << "A pressed!\n";
     window->draw();
 }
 
@@ -78,7 +89,7 @@ void KeyBinding::keyboardUntilQuit()
 {
     SDL_Event kevent;
     bool quit = false;
-    while (!quit)
+    while (!quit && window->isRun())
     {
         while (SDL_PollEvent(&kevent))
         {

@@ -24,6 +24,8 @@ private:
      */
     void callbackA();
 
+    void callbackEscape();
+
     // Directionnal callbacks
     void callbackUp();
     void callbackRight();
