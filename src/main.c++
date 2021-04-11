@@ -2,21 +2,27 @@
 #include "gui/window.h"
 #include "control/keyBinding.h"
 #include "gui/textWidget.h"
+#include "control/widgetManager.h"
 #include "gui/widget.h"
 
 int main()
 {
     Window window;
-    KeyBinding keybind(&window);
 
+    // Init widget manager
+    WidgetManager manager(&window);
+    window.addWidget(&manager);
     // Init text widget
-    int height = std::get<0>(window.getDimensions()) / 2;
-    int width = std::get<1>(window.getDimensions()) / 2;
+    int height = window.getHeight() / 2;
+    int width = window.getWidth() / 2;
     TextWidget textW;
-    textW.setPosition(height, width);
+    textW.setPosition(width, height);
     window.addWidget(&textW);
 
-    std::cout << "Done initializing !\n";
+    KeyBinding keybind(&window);
+
+    std::cout
+        << "Done initializing !\n";
     window.run();
 
     keybind.keyboardUntilQuit();

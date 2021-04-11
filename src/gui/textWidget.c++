@@ -2,10 +2,14 @@
 
 TextWidget::TextWidget()
 {
+    Widget();
     angle = 0;
-    char *defaultFont = "src/ressources/fonts/chopin_script.ttf";
-    setFont(defaultFont, 55);
-    setText("Default text", SDL_Color{255, 255, 255, 255});
+    pathFont = "src/ressources/fonts/Roboto-Regular.ttf";
+    int sizeFont = 55;
+    setFont(pathFont, sizeFont);
+    printedText = "Default text";
+    colorText = SDL_Color{255, 255, 255, 255};
+    setText(printedText, colorText);
     setPosition(0, 0);
     name = "TextWidget";
 }
@@ -13,12 +17,6 @@ TextWidget::TextWidget()
 void TextWidget::setAngle(double angle)
 {
     angle = angle;
-}
-
-char *TextWidget::getName()
-{
-    name = "TW modified";
-    return name;
 }
 
 void TextWidget::setFont(char *path, int size)
@@ -29,11 +27,37 @@ void TextWidget::setFont(char *path, int size)
         std::cerr << "Something went wrong when trying to open: " << path << ". Not changing font.\n";
         return;
     }
+    pathToTTF.close();
     font = TTF_OpenFont(path, size);
 }
-void TextWidget::setText(char *setText, SDL_Color color)
+
+void TextWidget::setFontPath(char *path)
 {
-    text = TTF_RenderText_Blended(font, setText, color);
+    pathFont = path;
+    setFont(pathFont, sizeFont);
+}
+
+void TextWidget::setFontSize(int size)
+{
+    sizeFont = size;
+    setFont(pathFont, sizeFont);
+}
+
+void TextWidget::setText(char *t, SDL_Color color)
+{
+    text = TTF_RenderText_Blended(font, t, color);
+}
+
+void TextWidget::setText(char *t)
+{
+    printedText = t;
+    setText(printedText, colorText);
+}
+
+void TextWidget::setText(SDL_Color color)
+{
+    colorText = color;
+    setText(printedText, colorText);
 }
 
 void TextWidget::free()
@@ -47,7 +71,6 @@ void TextWidget::draw(SDL_Renderer *pRenderer)
     Widget::draw(pRenderer);
     texture = SDL_CreateTextureFromSurface(pRenderer, text);
     SDL_QueryTexture(texture, nullptr, nullptr, &size.w, &size.h);
-    SDL_RendererFlip flip = static_cast<SDL_RendererFlip>(SDL_FLIP_NONE);
-    SDL_RenderCopyEx(pRenderer, texture, nullptr, &size, angle, &center, flip);
+    SDL_RenderCopy(pRenderer, texture, nullptr, &size);
     SDL_RenderPresent(pRenderer);
 }

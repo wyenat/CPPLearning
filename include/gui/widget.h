@@ -12,7 +12,9 @@ class Widget
 public:
     Widget();
     void setPosition(int x, int y);
+    void move(int x, int y);
     void setSize(int size_x, int size_y);
+    void free(){};
     /**
      * Draws the widget using passed renderer
      */

@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <SDL2/SDL.h>
+#include "control/widgetManager.h"
+#include "gui/widget.h"
 #include "gui/window.h"
 
 /**
@@ -13,6 +15,8 @@
 class KeyBinding
 {
 private:
+    WidgetManager *wm;
+
     /**
      * This function shall disappear someday, it is a hardmapping.
      */
@@ -23,7 +27,7 @@ private:
      * rather than key-based callbacks.
      */
     void callbackA();
-
+    void callbackC();
     void callbackEscape();
 
     // Directionnal callbacks
@@ -36,6 +40,8 @@ private:
     Window *window;
 
     void keyPressed(SDL_Keycode key);
+
+    void linkWM();
 
 public:
     KeyBinding();

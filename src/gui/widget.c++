@@ -6,20 +6,26 @@ Widget::Widget()
     name = "Widget";
 }
 
-void Widget::setSize(int size_x, int size_y)
+void Widget::setSize(int size_h, int size_w)
 {
-    size.x = size_x;
-    size.y = size_y;
+    size.h = size_h;
+    size.w = size_w;
 }
 
 void Widget::setPosition(int x, int y)
 {
-    center.x = x;
-    center.y = y;
+    size.x = x;
+    size.y = y;
 }
 
 void Widget::draw(SDL_Renderer *pRenderer)
 {
     std::cout << "Drawing widget " << getName() << " at: (" << center.x << ", " << center.y
               << ") with size: (" << size.h << ", " << size.w << ")\n";
+}
+
+void Widget::move(int x, int y)
+{
+    size.x += x;
+    size.y += y;
 }

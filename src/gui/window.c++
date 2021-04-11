@@ -2,8 +2,6 @@
 
 Window::Window()
 {
-    WIDTH = 860;
-    HEIGHT = 640;
     running = false;
     init();
 }
@@ -22,7 +20,7 @@ void Window::init()
 
     window = SDL_CreateWindow(
         "main",
-        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         WIDTH, HEIGHT,
         SDL_WINDOW_HIDDEN);
     pRenderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_SOFTWARE);
@@ -34,6 +32,7 @@ void Window::run()
     init();
     SDL_ShowWindow(window);
     running = true;
+    draw();
 };
 
 void Window::dispose()
@@ -51,6 +50,17 @@ void Window::addWidget(Widget *widget)
 
 Widget *Window::getWidgetAt(int index)
 {
+    if (widgets.empty())
+    {
+        std::cerr << "Trying to reach widgets but vector is empty...Return nullptr\n";
+        return nullptr;
+    }
+    if (index > getNbWidgets())
+    {
+        std::cerr << "Trying to reach widget " << index << ", but only " << widgets.size()
+                  << "available! Returning first widget instead...\n";
+        return widgets.at(0);
+    }
     return widgets.at(index);
 }
 

@@ -6,14 +6,13 @@
 #include <vector>
 #include "gui/widget.h"
 #include "gui/textWidget.h"
-#include <tuple>
 #include <algorithm>
 
 class Window
 {
 private:
-    int HEIGHT;
-    int WIDTH;
+    int HEIGHT = 640;
+    int WIDTH = 860;
     SDL_Window *window;
     SDL_Renderer *pRenderer;
     std::vector<Widget *> widgets;
@@ -47,15 +46,15 @@ public:
      */
     Widget *getWidgetAt(int index);
     void addWidget(Widget *widget);
+    int getNbWidgets() { return widgets.size(); };
+
+    SDL_Renderer *getRenderer() { return pRenderer; };
 
     /**
      * Return Height, Width of the window
      */
-    std::tuple<int, int> getDimensions()
-    {
-        std::tuple<int, int> dim(HEIGHT, WIDTH);
-        return dim;
-    };
+    int getWidth() { return WIDTH; };
+    int getHeight() { return HEIGHT; };
 
     bool isRun() { return running; };
 };

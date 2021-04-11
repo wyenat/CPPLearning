@@ -3,15 +3,28 @@
 KeyBinding::KeyBinding(Window *w)
 {
     window = w;
+    linkWM();
 }
 
 KeyBinding::KeyBinding()
 {
 }
 
+void KeyBinding::linkWM()
+{
+    Widget *w = window->getWidgetAt(0);
+    if (strcmp(w->getName(), "Widget Manager"))
+    {
+        std::cerr << "Expected Widget Manager at index 0! Got " << w->getName() << " instead.\n";
+        return;
+    }
+    wm = reinterpret_cast<WidgetManager *>(window->getWidgetAt(0));
+}
+
 void KeyBinding::setWindow(Window *w)
 {
     window = w;
+    linkWM();
 }
 
 void KeyBinding::hardmap(const char *keycode)
@@ -20,6 +33,11 @@ void KeyBinding::hardmap(const char *keycode)
     if (!strcmp(keycode, "A"))
     {
         callbackA();
+        return;
+    }
+    if (!strcmp(keycode, "C"))
+    {
+        callbackC();
         return;
     }
     if (!strcmp(keycode, "Up"))
@@ -58,24 +76,30 @@ void KeyBinding::callbackEscape()
 
 void KeyBinding::callbackUp()
 {
-    std::cout << "UP pressed!" << std::endl;
+    wm->move(0, -10);
 }
+
 void KeyBinding::callbackRight()
 {
-    std::cout << "Right pressed!" << std::endl;
+    wm->move(10, 0);
 }
 void KeyBinding::callbackDown()
 {
-    std::cout << "Down pressed!" << std::endl;
+    wm->move(0, 10);
 }
 void KeyBinding::callbackLeft()
 {
-    std::cout << "Left pressed!" << std::endl;
+    wm->move(-10, 0);
 }
 
 void KeyBinding::callbackA()
 {
     std::cout << "A pressed!\n";
+    window->draw();
+}
+void KeyBinding::callbackC()
+{
+    wm->cycle();
     window->draw();
 }
 
