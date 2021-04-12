@@ -72,5 +72,4 @@ void TextWidget::draw(SDL_Renderer *pRenderer)
     texture = SDL_CreateTextureFromSurface(pRenderer, text);
     SDL_QueryTexture(texture, nullptr, nullptr, &size.w, &size.h);
     SDL_RenderCopy(pRenderer, texture, nullptr, &size);
-    SDL_RenderPresent(pRenderer);
 }

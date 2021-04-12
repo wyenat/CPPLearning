@@ -66,8 +66,10 @@ Widget *Window::getWidgetAt(int index)
 
 void Window::draw()
 {
+    SDL_RenderClear(pRenderer);
     for (Widget *w : widgets)
     {
         w->draw(pRenderer);
     }
+    SDL_RenderPresent(pRenderer);
 }

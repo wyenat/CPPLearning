@@ -23,18 +23,17 @@ void WidgetManager::setTopRightCorner()
 
 void WidgetManager::cycle()
 {
-    SDL_RenderClear(window->getRenderer());
     current = (current + 1) % window->getNbWidgets();
     std::string toPrint = std::string("VM:") + std::string(window->getWidgetAt(current)->getName());
     char *toPrintChar = &toPrint[0];
     setText(toPrintChar);
     setTopRightCorner();
+    window->draw();
 }
 
 void WidgetManager::move(int x, int y)
 {
     Widget *w = window->getWidgetAt(current);
-    SDL_RenderClear(window->getRenderer());
     w->move(x, y);
-    w->draw(window->getRenderer());
+    window->draw();
 }
