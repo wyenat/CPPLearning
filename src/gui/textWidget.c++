@@ -3,7 +3,6 @@
 TextWidget::TextWidget()
 {
     Widget();
-    angle = 0;
     pathFont = "src/ressources/fonts/Roboto-Regular.ttf";
     int sizeFont = 55;
     setFont(pathFont, sizeFont);
@@ -14,9 +13,9 @@ TextWidget::TextWidget()
     name = "TextWidget";
 }
 
-void TextWidget::setAngle(double angle)
+void TextWidget::setAngle(double alpha)
 {
-    angle = angle;
+    angle = alpha;
 }
 
 void TextWidget::setFont(char *path, int size)
@@ -71,5 +70,6 @@ void TextWidget::draw(SDL_Renderer *pRenderer)
     Widget::draw(pRenderer);
     texture = SDL_CreateTextureFromSurface(pRenderer, text);
     SDL_QueryTexture(texture, nullptr, nullptr, &size.w, &size.h);
-    SDL_RenderCopy(pRenderer, texture, nullptr, &size);
+    SDL_RenderCopyEx(pRenderer, texture, nullptr, &size, getAngle(), nullptr, SDL_FLIP_NONE);
+    reComputeCenter();
 }

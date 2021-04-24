@@ -33,39 +33,39 @@ void KeyBinding::hardmap(const char *keycode)
     if (!strcmp(keycode, "A"))
     {
         callbackA();
-        return;
     }
-    if (!strcmp(keycode, "C"))
+    else if (!strcmp(keycode, "C"))
     {
         callbackC();
-        return;
     }
-    if (!strcmp(keycode, "Up"))
+    else if (!strcmp(keycode, "D"))
+    {
+        callbackDebug();
+    }
+    else if (!strcmp(keycode, "Up"))
     {
         callbackUp();
-        return;
     }
-    if (!strcmp(keycode, "Right"))
+    else if (!strcmp(keycode, "Right"))
     {
         callbackRight();
-        return;
     }
-    if (!strcmp(keycode, "Down"))
+    else if (!strcmp(keycode, "Down"))
     {
         callbackDown();
-        return;
     }
-    if (!strcmp(keycode, "Left"))
+    else if (!strcmp(keycode, "Left"))
     {
         callbackLeft();
-        return;
     }
-    if (!strcmp(keycode, "Escape"))
+    else if (!strcmp(keycode, "Escape"))
     {
         callbackEscape();
-        return;
     }
-    std::cout << "Key " << keycode << " pressed but not binded\n";
+    else
+    {
+        std ::cout << "Key " << keycode << " pressed but not binded\n";
+    }
 }
 
 void KeyBinding::callbackEscape()
@@ -77,6 +77,11 @@ void KeyBinding::callbackEscape()
 void KeyBinding::callbackUp()
 {
     wm->move(0, -10);
+}
+
+void KeyBinding::callbackDebug()
+{
+    wm->setDebug(!wm->getDebug());
 }
 
 void KeyBinding::callbackRight()
@@ -94,13 +99,11 @@ void KeyBinding::callbackLeft()
 
 void KeyBinding::callbackA()
 {
-    std::cout << "A pressed!\n";
-    window->draw();
+    wm->rotateWidget(5);
 }
 void KeyBinding::callbackC()
 {
     wm->cycle();
-    window->draw();
 }
 
 void KeyBinding::keyPressed(SDL_Keycode key)
@@ -109,27 +112,22 @@ void KeyBinding::keyPressed(SDL_Keycode key)
     hardmap(keycode);
 }
 
-void KeyBinding::keyboardUntilQuit()
+void KeyBinding::processKeys()
 {
     SDL_Event kevent;
-    bool quit = false;
-    while (!quit && window->isRun())
+    while (SDL_PollEvent(&kevent))
     {
-        while (SDL_PollEvent(&kevent))
+        switch (kevent.type)
         {
-            switch (kevent.type)
-            {
-            case SDL_KEYDOWN:
-                keyPressed(kevent.key.keysym.sym);
-                break;
-            case SDL_QUIT:
-                std::cout << "\nBye!\n";
-                quit = true;
-                window->dispose();
-                break;
-            default:
-                break;
-            }
+        case SDL_KEYDOWN:
+            keyPressed(kevent.key.keysym.sym);
+            break;
+        case SDL_QUIT:
+            std::cout << "\nBye!\n";
+            window->dispose();
+            break;
+        default:
+            break;
         }
     }
 };

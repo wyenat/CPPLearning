@@ -37,3 +37,10 @@ void WidgetManager::move(int x, int y)
     w->move(x, y);
     window->draw();
 }
+
+void WidgetManager::rotateWidget(double angle)
+{
+    Widget *w = window->getWidgetAt(current);
+    w->rotate(angle);
+    window->draw();
+}

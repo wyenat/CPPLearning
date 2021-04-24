@@ -17,4 +17,5 @@ public:
     WidgetManager(Window *window);
     void cycle();
     void move(int x, int y);
+    void rotateWidget(double angle);
 };

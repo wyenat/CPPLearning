@@ -29,6 +29,7 @@ private:
     void callbackA();
     void callbackC();
     void callbackEscape();
+    void callbackDebug();
 
     // Directionnal callbacks
     void callbackUp();
@@ -49,7 +50,7 @@ public:
     void setWindow(Window *window);
 
     /**
-     *  Listen to new events until a CTRL + C is detected
+     *  Process inputs
      */
-    void keyboardUntilQuit();
+    void processKeys();
 };

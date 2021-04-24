@@ -4,6 +4,8 @@
 #include "gui/textWidget.h"
 #include "control/widgetManager.h"
 #include "gui/widget.h"
+#include "simulation/world.h"
+#include <chrono>
 
 int main()
 {
@@ -19,13 +21,28 @@ int main()
     textW.setPosition(width, height);
     window.addWidget(&textW);
 
+    // Init world
+    World world(&window);
+    world.makeGravitySensible(1);
+
     KeyBinding keybind(&window);
 
-    std::cout
-        << "Done initializing !\n";
+    std::cout << "Done initializing !\n";
     window.run();
 
-    keybind.keyboardUntilQuit();
+    /**
+     * Entering game loop
+     */
+    clock_t start = std::clock();
+    while (window.isRun())
+    {
+        keybind.processKeys();
+        if ((std::clock() - start) / (CLOCKS_PER_SEC / 1000) > 50)
+        {
+            start = std::clock();
+            world.fall();
+        }
+    }
 
     return 0;
 }
